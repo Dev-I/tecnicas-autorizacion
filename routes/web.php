@@ -10,6 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+use \Symfony\Component\HttpFoundation\Response;
 
 Route::get('/', function () {
     return view('welcome');
@@ -19,4 +20,12 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home')->middleware('auth');
 
-Route::view('/admin', '/admin/dashboard');
+
+Route::group(['prefix'=>'admin','middleware'=>['auth','admin']], function () {
+
+    require __DIR__ . '/admin.php';
+
+});
+
+
+
